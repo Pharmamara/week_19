@@ -324,7 +324,7 @@ const makeSeventeen = () => {
 //добавьте слушатель события
 document.querySelector(".b-17").addEventListener("click", makeSeventeen);
 
-//Задание 18 НЕ УДАЛОСЬ ПЕРЕДАТЬ ФУНКЦИИ НА ВХОД JSON-ОБЪЕКТ, АВТОМАТИЧЕСКИ ПРЕОБРАЗУЕТСЯ В ОБЪЕКТ
+//Задание 18 НЕ УДАЛОСЬ ПЕРЕДАТЬ ФУНКЦИИ НА ВХОД JSON-ОБЪЕКТ, АВТОМАТИЧЕСКИ ПРЕОБРАЗУЕТСЯ В VS В ОБЫЧНЫЙ ОБЪЕКТ
 //Создайте функцию makeEighteen, которая должна сделать POST-запрос на адрес https://jsonplaceholder.typicode.com/photos с помощью функции fetch(). ыведите ответ с сервера в консоль.
 
 function makeEighteen() {
