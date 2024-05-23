@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Добавление постов</title>
+    <link rel="stylesheet" href="./normalize.css" />
+    <link href="./bootstrap.min.css" rel="stylesheet" />
+    <style>
+      h1 {
+        text-align: center;
+      }
+      h2 {
+        color: red;
+        text-align: center;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        padding-bottom: 5%;
+        width: 80%;
+      }
+      div {
+        margin: 0 auto;
+        width: 80%;
+      }
+      input {
+        border-style: solid;
+        margin-bottom: 5%;
+      }
+      button {
+        background-color: red;
+        color: white;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>БЛОГ</h1>
+    <h2>Новый пост</h2>
+    <form>
+      <input type="text" id="newPostHeading" placeholder="заголовок поста" />
+      <input type="text" id="newPostText" placeholder="текст поста" />
+      <button class="button-primary b-19" type="button">Создать пост</button>
+    </form>
+    <div>
+      <p class="pr" id="result"></p>
+    </div>
+    <script>
+      const addPost = () => {
+        const newData = {
+          title: document.getElementById("newPostHeading").value,
+          body: document.getElementById("newPostText").value,
+        };
+        const postMethod = {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify(newData),
+        };
+        console.log(newData);
+        fetch("https://jsonplaceholder.typicode.com/posts", postMethod)
+          .then((response) => response.json())
+          .then((data) => console.log(data))
+          .catch((err) => console.log(err));
+        function getDataForm(event) {
+          event.preventDefault();
+          const resultTitle = newData.title.value;
+          const resultBody = newData.body.value;
+          const resultElement = document.getElementById("result");
+          resultElement.innerHTML = `${resultTitle} <br >${resultBody}`;
+        }
+      };
+      const button = document.querySelector(".b-19");
+      button.addEventListener("onclick", addPost);
+    </script>
+  </body>
+</html>
