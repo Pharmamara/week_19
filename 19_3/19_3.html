@@ -14,15 +14,11 @@
         color: red;
         text-align: center;
       }
-      form {
+      div {
         display: flex;
         flex-direction: column;
         margin: 0 auto;
         padding-bottom: 5%;
-        width: 80%;
-      }
-      div {
-        margin: 0 auto;
         width: 80%;
       }
       input {
@@ -33,48 +29,57 @@
         background-color: red;
         color: white;
         border: none;
+        width: 50%;
+        margin: 0 auto;
       }
     </style>
   </head>
   <body>
     <h1>БЛОГ</h1>
     <h2>Новый пост</h2>
-    <form>
+    <div>
       <input type="text" id="newPostHeading" placeholder="заголовок поста" />
       <input type="text" id="newPostText" placeholder="текст поста" />
-      <button class="button-primary b-19" type="button">Создать пост</button>
-    </form>
+      <button
+        id="button"
+        onclick="New(event)"
+        class="button-primary b-19"
+        type="button"
+      >
+        Создать пост
+      </button>
+    </div>
     <div>
       <p class="pr" id="result"></p>
     </div>
     <script>
-      const addPost = () => {
-        const newData = {
-          title: document.getElementById("newPostHeading").value,
-          body: document.getElementById("newPostText").value,
-        };
-        const postMethod = {
+      const New = (e) => {
+        e.preventDefault();
+        const newTitle = document.getElementById("newPostHeading").value;
+        const newBody = document.getElementById("newPostText").value;
+        console.log(`${newTitle}, ${newBody}`); //проверка
+
+        fetch("https://jsonplaceholder.typicode.com/posts", {
           method: "POST",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
           },
-          body: JSON.stringify(newData),
-        };
-        console.log(newData);
-        fetch("https://jsonplaceholder.typicode.com/posts", postMethod)
+          body: JSON.stringify({
+            title: newTitle,
+            body: newBody,
+          }),
+        })
           .then((response) => response.json())
-          .then((data) => console.log(data))
+          .then((data) => {
+            console.log("response: " + newTitle + newBody);
+            const resultElement = document.getElementById("result");
+            resultElement.innerHTML = `<h2>Заголовок поста:</h2> <br >${newTitle}<br ><h2>Текст поста: </h2><br >${newBody}`;
+          })
           .catch((err) => console.log(err));
-        function getDataForm(event) {
-          event.preventDefault();
-          const resultTitle = newData.title.value;
-          const resultBody = newData.body.value;
-          const resultElement = document.getElementById("result");
-          resultElement.innerHTML = `${resultTitle} <br >${resultBody}`;
-        }
       };
-      const button = document.querySelector(".b-19");
-      button.addEventListener("onclick", addPost);
+
+      /*const button = document.getElementById("button");
+      button.addEventListener("onclick", New);*/
     </script>
   </body>
 </html>
