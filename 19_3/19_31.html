@@ -21,6 +21,13 @@
         padding-bottom: 5%;
         width: 80%;
       }
+      form {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        padding-bottom: 5%;
+        width: 80%;
+      }
       input {
         border-style: solid;
         margin-bottom: 5%;
@@ -37,18 +44,13 @@
   <body>
     <h1>БЛОГ</h1>
     <h2>Новый пост</h2>
-    <div>
+    <form>
       <input type="text" id="newPostHeading" placeholder="заголовок поста" />
       <input type="text" id="newPostText" placeholder="текст поста" />
-      <button
-        id="button"
-        onclick="New(event)"
-        class="button-primary b-19"
-        type="button"
-      >
+      <button id="button" class="button-primary b-19" type="button">
         Создать пост
       </button>
-    </div>
+    </form>
     <div>
       <p class="pr" id="result"></p>
     </div>
@@ -57,7 +59,6 @@
         e.preventDefault();
         const newTitle = document.getElementById("newPostHeading").value;
         const newBody = document.getElementById("newPostText").value;
-        console.log(`${newTitle}, ${newBody}`); //проверка
 
         fetch("https://jsonplaceholder.typicode.com/posts", {
           method: "POST",
@@ -78,8 +79,8 @@
           .catch((err) => console.log(err));
       };
 
-      /*const button = document.getElementById("button");
-      button.addEventListener("click", New);*/
+      const button = document.getElementById("button");
+      button.addEventListener("click", New);
     </script>
   </body>
 </html>
