@@ -45,42 +45,54 @@
     <h1>БЛОГ</h1>
     <h2>Новый пост</h2>
     <form>
-      <input type="text" id="newPostHeading" placeholder="заголовок поста" />
-      <input type="text" id="newPostText" placeholder="текст поста" />
+      <input type="text" id="idHead" placeholder="заголовок поста" />
+      <input type="text" id="idBody" placeholder="текст поста" />
       <button id="button" class="button-primary b-19" type="button">
         Создать пост
       </button>
     </form>
     <div>
-      <p class="pr" id="result"></p>
+      <p class="pr" id="idOfElem"></p>
     </div>
     <script>
-      const New = (e) => {
-        e.preventDefault();
-        const newTitle = document.getElementById("newPostHeading").value;
-        const newBody = document.getElementById("newPostText").value;
+      const addPostClickHandler = (event) => {
+        event.preventDefault();
+        const { newTitle, newBody } = getPostFromPage("idHead", "idBody");
+        sendPostToServerAndAddToPage(newTitle, newBody);
+      };
 
+      const getPostFromPage = (idHead, idBody) => {
+        const title = document.getElementById(idHead).value;
+        const body = document.getElementById(idBody).value;
+        return { newTitle: title, newBody: body };
+      };
+
+      const sendPostToServerAndAddToPage = (titleValue, bodyValue) => {
         fetch("https://jsonplaceholder.typicode.com/posts", {
           method: "POST",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
           },
           body: JSON.stringify({
-            title: newTitle,
-            body: newBody,
+            title: titleValue,
+            body: bodyValue,
           }),
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log("response: " + newTitle + newBody);
-            const resultElement = document.getElementById("result");
-            resultElement.innerHTML = `<h2>Заголовок поста:</h2> <br >${newTitle}<br ><h2>Текст поста: </h2><br >${newBody}`;
+            // data???
+            addPostToPage(titleValue, bodyValue, "idOfElem");
           })
           .catch((err) => console.log(err));
       };
 
+      const addPostToPage = (titleValue, bodyValue, idOfElem) => {
+        const resultElement = document.getElementById(idOfElem);
+        resultElement.innerHTML = `<h2>Заголовок поста:</h2> <br >${titleValue}<br ><h2>Текст поста: </h2><br >${bodyValue}`;
+      };
+
       const button = document.getElementById("button");
-      button.addEventListener("click", New);
+      button.addEventListener("click", addPostClickHandler);
     </script>
   </body>
 </html>
