@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Добавление постов</title>
+    <link rel="stylesheet" href="./normalize.css" />
+    <link href="./bootstrap.min.css" rel="stylesheet" />
+    <style>
+      h1 {
+        text-align: center;
+      }
+      h2 {
+        color: red;
+        text-align: center;
+      }
+      div {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        padding-bottom: 5%;
+        width: 80%;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        padding-bottom: 5%;
+        width: 80%;
+      }
+      input {
+        border-style: solid;
+        margin-bottom: 5%;
+      }
+      button {
+        background-color: red;
+        color: white;
+        border: none;
+        width: 50%;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>БЛОГ</h1>
+    <h2>Новый пост</h2>
+    <form>
+      <input type="text" id="idHead" placeholder="заголовок поста" />
+      <input type="text" id="idBody" placeholder="текст поста" />
+      <button id="button" class="button-primary b-19" type="button">
+        Создать пост
+      </button>
+    </form>
+    <div>
+      <p class="pr" id="idOfElem"></p>
+    </div>
+    <script>
+      const addPostClickHandler = (event) => {
+        event.preventDefault();
+        const { newTitle, newBody } = getPostFromPage("idHead", "idBody");
+        sendPostToServerAndAddToPage(newTitle, newBody);
+      };
+
+      const getPostFromPage = (idHead, idBody) => {
+        const title = document.getElementById(idHead).value;
+        const body = document.getElementById(idBody).value;
+        return { newTitle: title, newBody: body };
+      };
+
+      const sendPostToServerAndAddToPage = (titleValue, bodyValue) => {
+        fetch("https://jsonplaceholder.typicode.com/posts", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify({
+            title: titleValue,
+            body: bodyValue,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // data???
+            addPostToPage(titleValue, bodyValue, "idOfElem");
+          })
+          .catch((err) => console.log(err));
+      };
+
+      const addPostToPage = (titleValue, bodyValue, idOfElem) => {
+        const resultElement = document.getElementById(idOfElem);
+        resultElement.innerHTML = `<h2>Заголовок поста:</h2> <br >${titleValue}<br ><h2>Текст поста: </h2><br >${bodyValue}`;
+      };
+
+      const button = document.getElementById("button");
+      button.addEventListener("click", addPostClickHandler);
+    </script>
+  </body>
+</html>

@@ -203,17 +203,22 @@ function makeEleven() {
 
 document.querySelector(".b-11").addEventListener("click", makeEleven);
 
-//Задание 12 НЕ ПОЛУЧИЛОСЬ
+//Задание 12 ПРИШЛОСЬ ПОВОЗИТЬСЯ
 //Создайте функцию makeTwelve, которая будет получать IP-адрес из поля ввода находить его гео-позицию.
 
 function makeTwelve() {
   //Ваш код
-  fetch("https://api.ipify.org?format=json/{ipAddress}")
+  const ipAddress = document.getElementById("ipAddress").value;
+  const ip = JSON.stringify(ipAddress);
+
+  fetch(`http://ip-api.com/json?query=${ip}`)
     .then((response) => response.json())
     .then((data) => {
-      const ipAddress = document.getElementById("ipAddress");
-      const result12 = JSON.stringify(ipAddress);
-      resultElement.textContent = result12;
+      const country = data.country;
+      console.log(ip);
+      console.log(country);
+      const result12 = document.getElementById("result12");
+      result12.textContent = `Введенный IP-адрес: ${ip}, расположение: ${country}`;
     })
     .catch((error) => {
       console.error("Ошибка:", error);
